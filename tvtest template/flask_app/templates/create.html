@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Show</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center">Welcome {{user.first_name}}!</h1>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+            <a href="/logout" class="btn btn-info">Logout</a>
+        </div>
+    </nav>
+    <form action="/add/show" method="post" class="col-11 p-4 my-4 bg-dark text-light mx-auto">
+        <h2 class="text-primary">Add a Show to your watchlist!</h2>
+        {% with messages = get_flashed_messages(category_filter=['tvshow']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Server Message:</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between col-9">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="Network">Network:</label>
+                    <input type="text"  name="network" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="release_date">Release Date:</label>
+                    <input type="date" name="release_date" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea name="description"  cols="30" rows="5" class="form-control"></textarea>
+                </div>
+                <input type="submit" value="Add Show" class="btn btn-primary">
+            </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

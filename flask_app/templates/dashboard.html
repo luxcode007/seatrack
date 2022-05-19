@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeaTrack Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="d-flex justify-content-between align-items-center py-2 px-5">
+        <h1 class="text-center">SEATRACK</h1>
+        <h2 class="text-center">Logged in as: {{user.first_name}}!</h2>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/new/collection" class="btn btn-primary">Add Collection to start tracking!</a>
+            <a href="/logout" class="btn btn-info">Logout</a>
+        </div>
+    </div>
+    <div class="col-8 mx-auto">
+        <h1>Welcome to SeaTrack, {{user.first_name}}!</h1>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>OpenSea slug</th>
+                        <th>Floor Price</th>
+                        <th>Last Sale Price</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for collection in collections %}
+                        <tr>
+                            <td>{{collection.name}}</td>
+                            <td>{{collection.slug}}</td>
+                            <td>{{collection.floor_price}}</td>
+                            <td>{{collection.last_sale}}</td>
+                            <td>{{collection.notes}}</td>
+                            <!-- {% if collection.under30 == 1 %}
+                            <td>Yes</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %} -->
+                            <td>
+                                <a href="/collection/{{collection.id}}">View Instructions</a>
+                                {% if collection.user_id == session.user_id %}
+                                <a href="/edit/collection/{{collection.id}}">Edit</a>
+                                <a href="/destroy/collection/{{collection.id}}">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <a href='/'>Home</a>
+    </div>
+</body>
+</html>
