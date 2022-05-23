@@ -27,10 +27,14 @@ def create_collection():
         "name": request.form["name"],
         "slug": request.form["slug"],
         "notes": request.form["notes"],
-        # "date_made": request.form["date_made"],
         "user_id": session["user_id"]
     }
-    Collection.save(data)
+    collection_id = Collection.save(data)
+    watchlist_data = {
+        "user_id": session["user_id"],
+        "collection_id": collection_id
+    }
+    Collection.save_watchlist(watchlist_data)
     return redirect('/dashboard')
 
 @app.route('/edit/collection/<int:id>')
@@ -72,7 +76,6 @@ def update_collection():
         "name": request.form["name"],
         "slug": request.form["slug"],
         "notes": request.form["notes"],
-        # "date_made": request.form["date_made"],
         "id": request.form['id']
     }
     Collection.update(data)
@@ -88,21 +91,34 @@ def show_collection(id):
     user_data = {
         "id":session['user_id']
     }
+    # favorites = Collection.get_favorites(data)
+    # add code to call on watchlist to connect the collection to len() users who favorited
     # define the collection class again in this route to pull slug from the Collection.get_one() method defined in models for the class.
     collection = Collection.get_one(data)
     slug = collection.slug
     url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
     headers = {"Accept": "application/json"}
     response = requests.get(url, headers=headers)
-    print(response.json())
+    # print(response.json())
     # slug is needed for api
     # apiData = request.get api call flink x/{slug.slug}/stats
     return render_template("collection.html",collection=Collection.get_one(data),user=User.get_by_id(user_data), apiData=response.json())
 
-@app.route('/destroy/collection/<int:id>')
-def destroy_collection(id):
+@app.route('/addwatchlist/<int:id>')
+def save_watchlist(id):
     if 'user_id' not in session:
         return redirect('/logout')
+    data = {
+        "collection_id":id,
+        "user_id":session['user_id']
+    }
+    Collection.save_watchlist(data)
+    return redirect(f'/collection/{id}')
+
+@app.route('/destroy/collection/<int:id>')
+def destroy_collection(id):
+    # if 'user_id' not in session:
+    #     return redirect('/logout')
     data = {
         "id":id
     }

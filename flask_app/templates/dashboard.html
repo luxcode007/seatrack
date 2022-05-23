@@ -36,22 +36,19 @@
                             <td>{{collection.name}}</td>
                             <td>{{collection.slug}}</td>
                             <td>{{collection.notes}}</td>
-                            <td>API placer</td>
-                            <td>API placer</td>
-                            <!-- <td>{fapi request link{collection.slug} }</td> -->
-                            <!-- <td>{fapi request link{collection.slug} }</td> -->
+                            <td>{{collection.data.stats.floor_price}}</td>
+                            <td>{{collection.data.stats.market_cap}}</td>
                             <td>
                                 <a href="/collection/{{collection.id}}">View</a>
-                                {% if collection.user_id == session.user_id %}
                                 <a href="/edit/collection/{{collection.id}}">Edit</a>
-                                <a href="/destroy/collection/{{collection.id}}">Delete</a>
-                                {% endif %}
+                                <!-- <a href="/destroy/collection/{{collection.id}}">Delete</a> -->
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        <a href='/'>Home</a>
+        <!-- home currently goes to logout & registration from dashboard. Home should go to dashboard-->
+        <!-- <a href='/'>Home</a> -->
     </div>
 </body>
 </html>

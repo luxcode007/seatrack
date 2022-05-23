@@ -8,9 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+    <div class="d-flex justify-content-around align-items-center py-2 px-5">
+        <h1 class="text-center">SEATRACK</h1>
+        <h3 class="text-center">Start tracking your favorite NFT collections!</h3>
+    </div>
     <div class="d-flex justify-content-around">
-        <form action="/register" method="post" class="col-4 p-4 bg-dark text-light">
-            <h2 class="text-primary">Register</h2>
+        <form action="/register" method="post" class="col-4 p-4 bg-light text-black rounded">
+            <h2 class="text-success">Register</h2>
             {% with messages = get_flashed_messages(category_filter=['register']) %}
                 {% if messages %}
                 <div class="alert alert-danger" role="alert">
@@ -41,10 +45,10 @@
                 <label for="confirm">Confirm Password:</label>
                 <input type="password" name="confirm" class="form-control">
             </div>
-            <input type="submit" value="Register" class="btn btn-primary">
+            <input type="submit" value="Register" class="btn btn-success">
         </form>
-        <form action="/login" method="post" class="col-4 p-4 bg-dark text-light">
-            <h2 class="text-success">Login</h2>
+        <form action="/login" method="post" class="col-4 p-4 bg-light text-black rounded">
+            <h2 class="text-primary">Login</h2>
             {% with messages = get_flashed_messages(category_filter=['login']) %}
                 {% if messages %}
                 <div class="alert alert-danger" role="alert">
@@ -63,7 +67,7 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" class="form-control">
             </div>
-            <input type="submit" value="Login" class="btn btn-success">
+            <input type="submit" value="Login" class="btn btn-primary">
         </form>
     </div>
 </body>

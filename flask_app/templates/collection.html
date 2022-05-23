@@ -24,7 +24,9 @@
             <p class="card-text">Floor Price:  {{apiData.stats.floor_price}} eth</p>
             <p class="card-text">Market Cap:  {{apiData.stats.market_cap}} eth</p>
             <p class="card-text">Date first added to SeaTrack:  {{collection.created_at}}</p>
+            <p class="card-text">Total users tracking: {{collection.favorites}}</p>
         </div>
+        <a href="/addwatchlist/{{collection.id}}" class="btn btn-primary col-2">Favorite collection</a>
     </div>
 </body>
 </html>
