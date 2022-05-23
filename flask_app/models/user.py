@@ -43,12 +43,12 @@ class User:
         for row_from_db in results:
             # Now we parse the topping data to make instances of toppings and add them into our list.
             collection_data = {
-                "id" : row_from_db["collection.id"],
-                "name" : row_from_db["name"],
-                "slug" : row_from_db["slug"],
-                "notes" : row_from_db["notes"],
-                "created_at" : row_from_db["collections.created_at"],
-                "updated_at" : row_from_db["collections.updated_at"]
+                "id" : row_from_db["collection.id"]
+                # "name" : row_from_db["name"],
+                # "slug" : row_from_db["slug"],
+                # "notes" : row_from_db["notes"],
+                # "created_at" : row_from_db["collections.created_at"],
+                # "updated_at" : row_from_db["collections.updated_at"]
             }
             # from flask_app.models import collection to prevent circular imports
             from flask_app.models import collection

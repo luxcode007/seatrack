@@ -43,6 +43,17 @@ def login():
     # never render on a post!!!
     return redirect("/dashboard")
 
+# original old dashboard route before API connection to dashboard (see below)
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'user_id' not in session:
+#         return redirect('/logout')
+#     data ={
+#         'id': session['user_id']
+#     }
+#     return render_template("dashboard.html",user=User.get_by_id(data),collections=Collection.get_all())
+
+# Shout out to David S!!!!!!! Thank you!
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
@@ -50,7 +61,17 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html",user=User.get_by_id(data),collections=Collection.get_all())
+    collections = Collection.get_all()
+    apiData = []
+    for collection in collections:
+        slug = collection.slug
+        url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
+        headers = {"Accept": "application/json"}
+        response = requests.get(url, headers=headers)
+        # print(response.json())
+        collection.data=response.json()
+        apiData.append(collection)
+    return render_template("dashboard.html",user=User.get_by_id(data),collections=apiData)
 
 @app.route('/logout')
 def logout():
