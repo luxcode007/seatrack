@@ -6,6 +6,15 @@ from flask import flash
 
 # seatrack_db is the DATABASE UPDATE ALL FILES
 
+db="seatrack_db"
+
+# notes on connecting the many to many data
+# watchlists = db.Table('watchlists',
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+#     db.Column('collection_id', db.Integer, db.ForeignKey('channel.id'))
+
+# )
+
 class User:
     def __init__(self,data):
         self.id = data['id']
@@ -15,7 +24,36 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        # for many to many relationship
+        self.collections = []
     db = "seatrack_db"
+
+# class User(db.Model):
+#     following = db.relationship('Collection', secondary=watchlists)
+
+#     def __repr__(self):
+#         return f'<User: {self.data}>'
+
+    @classmethod
+    def get_user_collections( cls , data ):
+        query = "SELECT * FROM users LEFT JOIN watchlists ON watchlists.user_id = user.id LEFT JOIN collections ON watchlists.collection_id = collection.id WHERE user.id = %(id)s;"
+        results = connectToMySQL('users').query_db( query , data )
+        # results will be a list of topping objects with the burger attached to each row.
+        user = cls( results[0] )
+        for row_from_db in results:
+            # Now we parse the topping data to make instances of toppings and add them into our list.
+            collection_data = {
+                "id" : row_from_db["collection.id"],
+                "name" : row_from_db["name"],
+                "slug" : row_from_db["slug"],
+                "notes" : row_from_db["notes"],
+                "created_at" : row_from_db["collections.created_at"],
+                "updated_at" : row_from_db["collections.updated_at"]
+            }
+            # from flask_app.models import collection to prevent circular imports
+            from flask_app.models import collection
+            user.collections.append( collection.Collection( collection_data ) )
+        return user
 
     @classmethod
     def get_by_email(cls,data):

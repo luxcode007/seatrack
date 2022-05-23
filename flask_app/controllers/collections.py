@@ -1,4 +1,6 @@
 from flask import render_template, session,flash,redirect, request
+import requests
+# need import requests for get function call
 import re
 from flask_bcrypt import Bcrypt
 from flask_app import app
@@ -23,10 +25,9 @@ def create_collection():
         return redirect('/new/collection')
     data = {
         "name": request.form["name"],
-        "description": request.form["description"],
-        "instructions": request.form["instructions"],
-        "under30": int(request.form["under30"]),
-        "date_made": request.form["date_made"],
+        "slug": request.form["slug"],
+        "notes": request.form["notes"],
+        # "date_made": request.form["date_made"],
         "user_id": session["user_id"]
     }
     Collection.save(data)
@@ -44,6 +45,23 @@ def edit_collection(id):
     }
     return render_template("edit.html",edit=Collection.get_one(data),user=User.get_by_id(user_data))
 
+# see /collection/ below for original
+# @app.route('/view/collection/<int:id>/')
+# def edit_collection(id, slug):
+#     if 'user_id' not in session:
+#         return redirect('/logout')
+#     data = {
+#         "id":id
+#     }
+#     user_data = {
+#         "id":session['user_id']
+#     }
+#     # request.get api call f(link x/{slug.slug}/stats
+#     slug = Collection.get_one(data)
+#     # slug is needed for api
+#     # apiData = request.get api call flink x/{slug.slug}/stats
+#     return render_template("view.html",edit=Collection.get_one(data),user=User.get_by_id(user_data), apiData=apiData)
+
 @app.route('/update/collection',methods=['POST'])
 def update_collection():
     if 'user_id' not in session:
@@ -52,10 +70,9 @@ def update_collection():
         return redirect('/new/collection')
     data = {
         "name": request.form["name"],
-        "description": request.form["description"],
-        "instructions": request.form["instructions"],
-        "under30": int(request.form["under30"]),
-        "date_made": request.form["date_made"],
+        "slug": request.form["slug"],
+        "notes": request.form["notes"],
+        # "date_made": request.form["date_made"],
         "id": request.form['id']
     }
     Collection.update(data)
@@ -71,7 +88,16 @@ def show_collection(id):
     user_data = {
         "id":session['user_id']
     }
-    return render_template("collection.html",collection=Collection.get_one(data),user=User.get_by_id(user_data))
+    # define the collection class again in this route to pull slug from the Collection.get_one() method defined in models for the class.
+    collection = Collection.get_one(data)
+    slug = collection.slug
+    url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
+    headers = {"Accept": "application/json"}
+    response = requests.get(url, headers=headers)
+    print(response.json())
+    # slug is needed for api
+    # apiData = request.get api call flink x/{slug.slug}/stats
+    return render_template("collection.html",collection=Collection.get_one(data),user=User.get_by_id(user_data), apiData=response.json())
 
 @app.route('/destroy/collection/<int:id>')
 def destroy_collection(id):
@@ -82,3 +108,11 @@ def destroy_collection(id):
     }
     Collection.destroy(data)
     return redirect('/dashboard')
+
+# @app.route('/get_data/<int:id>', methods=['POST'])
+# def get_data():
+#     slug = request.form['slug']
+#     url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
+#     response = requests.get(url)
+#     print(response.json())
+#     return redirect('/collection/<int:id>',collection=Collection.get_one(data))

@@ -20,17 +20,10 @@
         <div class="card-body">
             <h2 class="card-title text-primary">Collection name: {{collection.name}}</h2>
             <p class="card-text">OpenSea slug:  {{collection.slug}}</p>
-            <p class="card-text">Floor price:  {{collection.floor_price}}</p>
-            <p class="card-text">Last sale:  {{collection.last_sale}}</p>
             <p class="card-text">Notes:  {{collection.notes}}</p>
+            <p class="card-text">Floor Price:  {{apiData.stats.floor_price}} eth</p>
+            <p class="card-text">Market Cap:  {{apiData.stats.market_cap}} eth</p>
             <p class="card-text">Date first added to SeaTrack:  {{collection.created_at}}</p>
-            <!-- <p class="card-text">Under 30 Minutes:
-                {%  if collection.under30 == 1 %}
-                Yes
-                {% else %}
-                No
-                {% endif %}
-            </p> -->
         </div>
     </div>
 </body>

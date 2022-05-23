@@ -1,24 +1,46 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 
+
 class Collection:
     db_name = 'seatrack_db'
 
     def __init__(self,db_data):
         self.id = db_data['id']
         self.name = db_data['name']
-        self.under30 = db_data['under30']
-        self.description = db_data['description']
-        self.instructions = db_data['instructions']
-        self.date_made = db_data['date_made']
-        self.user_id = db_data['user_id']
+        self.slug = db_data['slug']
+        self.notes = db_data['notes']
+        # self.user_id = db_data['user_id']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
+        # for many to many relationship
+        self.users = []
 
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO collections (name, description, instructions, under30, date_made, user_id) VALUES (%(name)s,%(description)s,%(instructions)s,%(under30)s,%(date_made)s,%(user_id)s);"
+        query = "INSERT INTO collections (name, slug, notes) VALUES (%(name)s,%(slug)s,%(notes)s);"
         return connectToMySQL(cls.db_name).query_db(query, data)
+
+    @classmethod
+    def get_collection_users( cls , data ):
+        query = "SELECT * FROM collections LEFT JOIN watchlists ON watchlists.collection_id = collection.id LEFT JOIN users ON watchlists.user_id = user.id WHERE collections.id = %(id)s;"
+        results = connectToMySQL('users').query_db( query , data )
+        # results will be a list of topping objects with the burger attached to each row.
+        collection = cls( results[0] )
+        for row_from_db in results:
+            # Now we parse the topping data to make instances of toppings and add them into our list.
+            user_data = {
+                "id" : row_from_db["user.id"],
+                "first_name" : row_from_db["first_name"],
+                "last_name" : row_from_db["last_name"],
+                "email" : row_from_db["email"],
+                "created_at" : row_from_db["collections.created_at"],
+                "updated_at" : row_from_db["collections.updated_at"]
+            }
+        # from flask_app.models import user
+        from flask_app.models import user
+        collection.users.append(user.User(user_data ) )
+        return collection
 
     @classmethod
     def get_all(cls):
@@ -26,7 +48,7 @@ class Collection:
         results =  connectToMySQL(cls.db_name).query_db(query)
         all_collections = []
         for row in results:
-            print(row['date_made'])
+            print(row['created_at'])
             all_collections.append( cls(row) )
         return all_collections
 
@@ -38,7 +60,7 @@ class Collection:
 
     @classmethod
     def update(cls, data):
-        query = "UPDATE collections SET name=%(name)s, description=%(description)s, instructions=%(instructions)s, under30=%(under30)s, date_made=%(date_made)s,updated_at=NOW() WHERE id = %(id)s;"
+        query = "UPDATE collections SET name=%(name)s, slug=%(slug)s, notes=%(notes)s, updated_at=NOW() WHERE id = %(id)s;"
         return connectToMySQL(cls.db_name).query_db(query,data)
 
     @classmethod
@@ -51,15 +73,15 @@ class Collection:
         is_valid = True
         if len(collection['name']) < 3:
             is_valid = False
-            flash("Name must be at least 3 characters","collection")
-        if len(collection['instructions']) < 3:
+            flash("the name must be at least 3 characters","collection")
+        if len(collection['slug']) < 2:
             is_valid = False
-            flash("Instructions must be at least 3 characters","collection")
-        if len(collection['description']) < 3:
+            flash("the slug must be at least 2 characters","collection")
+        if len(collection['notes']) < 3:
             is_valid = False
-            flash("Description must be at least 3 characters","collection")
-        if collection['date_made'] == "":
-            is_valid = False
-            flash("Please enter a date","collection")
+            flash("The notes must be at least 3 characters","collection")
+        # if collection['date_made'] == "":
+        #     is_valid = False
+        #     flash("Please enter a date","collection")
         return is_valid
 

@@ -10,23 +10,23 @@
 <body>
     <div class="d-flex justify-content-between align-items-center py-2 px-5">
         <h1 class="text-center">SEATRACK</h1>
-        <h2 class="text-center">Logged in as: {{user.first_name}}!</h2>
+        <h2 class="text-center">Logged in as: {{user.first_name}}</h2>
         <div class="d-flex col-4 justify-content-around">
             <a href="/new/collection" class="btn btn-primary">Add Collection to start tracking!</a>
             <a href="/logout" class="btn btn-info">Logout</a>
         </div>
     </div>
     <div class="col-8 mx-auto">
-        <h1>Welcome to SeaTrack, {{user.first_name}}!</h1>
+        <h1>Welcome to SeaTrack</h1>
         <div>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>OpenSea slug</th>
+                        <th>Notes</th>
                         <th>Floor Price</th>
                         <th>Last Sale Price</th>
-                        <th>Notes</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -35,16 +35,13 @@
                         <tr>
                             <td>{{collection.name}}</td>
                             <td>{{collection.slug}}</td>
-                            <td>{{collection.floor_price}}</td>
-                            <td>{{collection.last_sale}}</td>
                             <td>{{collection.notes}}</td>
-                            <!-- {% if collection.under30 == 1 %}
-                            <td>Yes</td>
-                            {% else %}
-                            <td>No</td>
-                            {% endif %} -->
+                            <td>API placer</td>
+                            <td>API placer</td>
+                            <!-- <td>{fapi request link{collection.slug} }</td> -->
+                            <!-- <td>{fapi request link{collection.slug} }</td> -->
                             <td>
-                                <a href="/collection/{{collection.id}}">View Instructions</a>
+                                <a href="/collection/{{collection.id}}">View</a>
                                 {% if collection.user_id == session.user_id %}
                                 <a href="/edit/collection/{{collection.id}}">Edit</a>
                                 <a href="/destroy/collection/{{collection.id}}">Delete</a>

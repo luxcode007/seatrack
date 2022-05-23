@@ -1,4 +1,6 @@
 from flask import render_template,redirect,request,session,flash
+import requests
+# need requests for get function call
 from flask_app import app
 from flask_app.models.user import User
 from flask_app.models.collection import Collection
