@@ -6,3 +6,13 @@ Version 2.0 is a functioning webapp that succesfully integrates OpenSea API to t
 Includes a many to many SQL database relationship to track how many followers each collection has, as well as basic validation & bcrypt hashing for the login & registration.
 
 Updated 5.22.22
+
+Video walkthrough of the updated SeaTrack app: https://www.loom.com/share/f66403dafaa642f3be490bf065f3da4b
+
+Future roadmap:
+
+-typo corrections (dashboard)
+-improved UI experience
+-additional API data & API assets like images
+-favorite collection filtering page so a user can see only their favorite collections
+-discord bot integration for integration with a community discord server
