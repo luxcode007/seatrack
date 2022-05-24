@@ -1,4 +1,10 @@
 # seatrack
+------
+
+http://3.88.29.132/
+Python flask app hosted on Amazon EC2 using Gunicorn & Nginx, use this link to access the deployed webapp: http://3.88.29.132/
+-----
+
 OpenSea collection and floor tracking webapp built in Python, Flask and My SQL, integrated with OpenSea API.
 
 Version 2.0 is a functioning webapp that succesfully integrates OpenSea API to track floor price & market cap of specific collections that are added by users.
