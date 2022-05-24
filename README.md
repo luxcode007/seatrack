@@ -1,7 +1,5 @@
 # seatrack
 ------
-
-http://3.88.29.132/
 Python flask app hosted on Amazon EC2 using Gunicorn & Nginx, use this link to access the deployed webapp: http://3.88.29.132/
 -----
 
