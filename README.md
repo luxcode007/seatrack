@@ -21,4 +21,4 @@ Future roadmap:
 -improved UI experience
 -additional API data & API assets like images
 -favorite collection filtering page so a user can see only their favorite collections
--discord bot integration for integration with a community discord server
+-discord bot integration for connection with community discord servers
