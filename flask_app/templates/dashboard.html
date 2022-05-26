@@ -25,8 +25,8 @@
                         <th>Name</th>
                         <th>OpenSea slug</th>
                         <th>Notes</th>
-                        <th>Floor Price</th>
-                        <th>Last Sale Price</th>
+                        <th>Floor Price (eth)</th>
+                        <th>Market Cap (eth)</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -36,8 +36,8 @@
                             <td>{{collection.name}}</td>
                             <td>{{collection.slug}}</td>
                             <td>{{collection.notes}}</td>
-                            <td>{{collection.data.stats.floor_price}}</td>
-                            <td>{{collection.data.stats.market_cap}}</td>
+                            <td>{{collection.data.stats.floor_price}} e</td>
+                            <td>{{collection.data.stats.market_cap}} e</td>
                             <td>
                                 <a href="/collection/{{collection.id}}">View</a>
                                 <a href="/edit/collection/{{collection.id}}">Edit</a>
