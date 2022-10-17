@@ -1,0 +1,18 @@
+OS API key: f33a8411e29b4f69b1a1c5e431e9e43d
+<!-- <p class="card-text">Floor price: {{apiData.stats.floor_price}}  </p> -->
+<!-- <p class="card-text">Market cap (eth):  {{apiData.stats.market_cap}}</p> -->
+
+For collection API information
+
+https://api.opensea.io/api/v1/collection/doodles-official/stats
+
+
+can I make a database entry an API call?
+
+for example, user enters the "slug" and the entry into the database is the API link referring to specific JSON file.
+
+
+For pulling image info
+https://docs.opensea.io/reference/getting-assets
+
+collection.assets.assets_contract.image_url
