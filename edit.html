@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center">Logged in as: {{user.first_name}}</h1>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+            <a href="/logout" class="btn btn-info">Logout</a>
+
+        </div>
+
+    </nav>
+    <form action="/update/collection" method="post" class="col-11 p-4 my-4 bg-dark text-light mx-auto">
+        <h2 class="text-primary">Edit Collection</h2>
+        {% with messages = get_flashed_messages(category_filter=['collection']) %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Flash AHHHHHHH!!!!</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between col-9">
+            <input type="hidden" name="id" value={{edit.id}}>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" class="form-control" value="{{edit.name}}">
+                </div>
+                <div class="form-group">
+                    <label for="slug">OpenSea slug:</label>
+                    <input type="text" name="slug" class="form-control" value ="{{edit.slug}}">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes:</label>
+                    <textarea name="notes"  cols="30" rows="5" class="form-control">{{edit.notes}}</textarea>
+                </div>
+            </div>
+            <div class="col-4">
+                <br>
+                <input type="submit" value="Edit Collection" class="btn btn-primary">
+            </div>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</body>
+</html>
