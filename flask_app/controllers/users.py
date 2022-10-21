@@ -65,8 +65,8 @@ def dashboard():
     apiData = []
     for collection in collections:
         slug = collection.slug
-        url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
-        headers = {"Accept": "application/json"}
+        url = f"https://api.opensea.io/api/v1/collection/{slug}"
+        headers = {"Accept": "application/json", "X-API-KEY": "f33a8411e29b4f69b1a1c5e431e9e43d"}
         response = requests.get(url, headers=headers)
         # print(response.json())
         collection.data=response.json()

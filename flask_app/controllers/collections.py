@@ -96,8 +96,8 @@ def show_collection(id):
     # define the collection class again in this route to pull slug from the Collection.get_one() method defined in models for the class.
     collection = Collection.get_one(data)
     slug = collection.slug
-    url = f"https://api.opensea.io/api/v1/collection/{slug}/stats"
-    headers = {"Accept": "application/json"}
+    url = f"https://api.opensea.io/api/v1/collection/{slug}"
+    headers = {"Accept": "application/json", "X-API-KEY": "f33a8411e29b4f69b1a1c5e431e9e43d"}
     response = requests.get(url, headers=headers)
     # print(response.json())
     # slug is needed for api
